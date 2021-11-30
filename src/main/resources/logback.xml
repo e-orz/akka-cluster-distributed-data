@@ -9,6 +9,14 @@
         <delay>5000</delay>
     </shutdownHook>
 
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%date{ISO8601} %-44.44([%thread]) %-5level %-36.36logger{36} - %msg%n</pattern>
+        </encoder>
+        <!-- false quadruples logging throughput -->
+        <immediateFlush>true</immediateFlush>
+    </appender>
+
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>logs/application.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
@@ -59,12 +67,8 @@
         <discardingThreshold>0</discardingThreshold>
     </appender>
 
-    <logger name="akka" additivity="true">
-        <appender-ref ref="ASYNC_AKKA_FILE" />
-    </logger>
-
     <root level="${log.level:-INFO}">
-        <appender-ref ref="ASYNC_FILE" />
+        <appender-ref ref="STDOUT" />
     </root>
     <jmxConfigurator />
 </configuration>
